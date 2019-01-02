@@ -12,17 +12,7 @@ class App extends Component {
         {
           name:'Mehmet Can',
           surname:'Kocas',
-          in: 12345678901,
-        },
-        {
-          name:'Murat',
-          surname:'Korkmaz',
-          in: 65498732156,
-        },
-        {
-          name:'Ayse',
-          surname:'Ozturk',
-          in: 15975398712,
+          in: 56516728808,
         },
       ],
       temp:{
@@ -70,11 +60,26 @@ class App extends Component {
   updateUser(){
     let updatedUser = this.state.temp;
     let users = this.state.users;
-    users[this.state.currentUser] = updatedUser;
-    this.setState({users:users});
+    if(this.isINumberValid(updatedUser.in) === false){
+      alert("Geçerli bir TCK No girin.");
+      return false;
+    }else if(this.isOnlyChar(updatedUser.name) === false || this.isOnlyChar(updatedUser.surname) === false){
+      alert("İsim ya da Soyisim geçersiz.(Numara ya da türkçe karakter olmadan giriniz.)")
+      return false;
+    } 
+    else{
+      users[this.state.currentUser] = updatedUser;
+      this.setState({users:users});
+    }
     this.updateToggle();
   }
 
+
+  isOnlyChar(value){
+    value = String(value);
+    if(!/^[A-Za-z ]+/u.test(value)) return false;
+    else return true;
+  }
   addUser(){
     let newUser = this.state.temp;
     let usersCopy = this.state.users.concat(newUser);
@@ -83,7 +88,16 @@ class App extends Component {
     if((this.state.temp.in === -1 || this.state.temp.name === "" || this.state.temp.surname === "")){
       alert("Boş bırakmayın.")
       return false;
-    }else{
+    }
+    else if(this.isINumberValid(this.state.temp.in) === false){
+      alert("Geçerli bir TCK No girin.")
+      return false;
+    }
+    else if(this.isOnlyChar(newUser.name) === false || this.isOnlyChar(newUser.surname) === false){
+      alert("İsim ya da Soyisim geçersiz.(Numara ya da türkçe karakter olmadan giriniz.)")
+      return false;
+    } 
+    else{
       this.setState({users: usersCopy,
       temp:{
         name: "",
@@ -92,7 +106,6 @@ class App extends Component {
       }})
     }
     this.addToggle();
-    console.log(this.state.temp);
 
   }
   deleteUser(key){
@@ -100,6 +113,42 @@ class App extends Component {
     users.splice(key, 1);
     this.setState({users:users});
   }
+
+
+  //isINumberValid functionu için https://gist.github.com/onury/7a380f906b1eb46dc2f0bb089caf7d12 adresinden yararlanılmıştır.
+  isINumberValid(value) {
+    value = String(value);
+    // T.C. identity number should have 11 digits and first should be non-zero.
+    if (!(/^[1-9]\d{10}$/).test(value)) return false;
+    var digits = value.split(''),
+        // store last 2 digits (10th and 11th) which are actually used for validation
+        d10 = Number(digits[9]),
+        d11 = Number(digits[10]),
+        // we'll also need the sum of first 10 digits for validation
+        sumOf10 = 0,
+        evens = 0,
+        odds = 0;
+    digits.forEach(function (d, index) {
+        d = Number(d);
+        if (index < 10) sumOf10 += d;
+        if (index < 9) {
+            if ((index + 1) % 2 === 0) {
+                evens += d;
+            } else {
+                odds += d;
+            }
+        }
+    });
+    // check if the unit-digit of the sum of first 10 digits equals to the 11th digit.
+    if (sumOf10 % 10 !== d11) return false;
+    // check if unit-digit of the sum of odds * 7 and evens * 9 is equal to 10th digit.
+    if (((odds * 7) + (evens * 9)) % 10 !== d10) return false;
+    // check if unit-digit of the sum of odds * 8 is equal to 11th digit.
+    if ((odds * 8) % 10 !== d11) return false;
+    return true;
+  }
+
+
 
   render() {
     return (
