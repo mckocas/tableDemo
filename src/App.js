@@ -69,7 +69,13 @@ class App extends Component {
     } 
     else{
       users[this.state.currentUser] = updatedUser;
-      this.setState({users:users});
+      this.setState({
+      users:users,
+      temp:{
+          name: "",
+          surname: "",
+          in: -1,
+        }});
     }
     this.updateToggle();
   }
