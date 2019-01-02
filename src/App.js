@@ -77,7 +77,7 @@ class App extends Component {
 
   isOnlyChar(value){
     value = String(value);
-    if(!/^[A-Za-z ]+/u.test(value)) return false;
+    if(!/^[a-zA-Z]+$/.test(value)) return false;
     else return true;
   }
   addUser(){
