@@ -24,21 +24,18 @@ class App extends Component {
       updateModal: false,
       currentUser: -1,
     }
+
     this.addToggle = this.addToggle.bind(this);
     this.addUser = this.addUser.bind(this);
     this.updateToggle = this.updateToggle.bind(this);
     this.updateUser = this.updateUser.bind(this);
   }
+
   handleChange = (e) => {
     let state = this.state.temp;
     state[e.target.name] = e.target.value;
     this.setState(state);
 }
-  addToggle() {
-    this.setState({
-      addModal: !this.state.addModal,
-    });
-  }
 
   updateToggle() {
     this.setState({
@@ -80,17 +77,16 @@ class App extends Component {
     this.updateToggle();
   }
 
-
-  isOnlyChar(value){
-    value = String(value);
-    if(!/^[a-zA-Z]+$/.test(value)) return false;
-    else return true;
+  addToggle() {
+    this.setState({
+      addModal: !this.state.addModal,
+    });
   }
+
   addUser(){
     let newUser = this.state.temp;
     let usersCopy = this.state.users.concat(newUser);
 
-    //karcin-ui üzerinde required attribute'u olmadığı için böyle basit bir kontrol sistemi yazdım.
     if((this.state.temp.in === -1 || this.state.temp.name === "" || this.state.temp.surname === "")){
       alert("Boş bırakmayın.")
       return false;
@@ -114,14 +110,21 @@ class App extends Component {
     this.addToggle();
 
   }
+
   deleteUser(key){
     let users = this.state.users;
     users.splice(key, 1);
     this.setState({users:users});
   }
 
+  isOnlyChar(value){
+    value = String(value);
+    if(!/^[a-zA-Z]+$/.test(value)) return false;
+    else return true;
+  }
 
   //isINumberValid functionu için https://gist.github.com/onury/7a380f906b1eb46dc2f0bb089caf7d12 adresinden yararlanılmıştır.
+  
   isINumberValid(value) {
     value = String(value);
     // T.C. identity number should have 11 digits and first should be non-zero.
@@ -153,8 +156,6 @@ class App extends Component {
     if ((odds * 8) % 10 !== d11) return false;
     return true;
   }
-
-
 
   render() {
     return (
@@ -214,9 +215,3 @@ class App extends Component {
 }
 
 export default App;
-/*
-
-
-
-
-*/
