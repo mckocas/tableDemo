@@ -39,8 +39,17 @@ class App extends Component {
 
   updateToggle() {
     this.setState({
-      updateModal: !this.state.updateModal
+      updateModal: !this.state.updateModal,
     });
+    if(this.state.updateModal === true){
+      this.setState({
+        temp:{
+          name: "",
+          surname: "",
+          in: -1,
+        }        
+      })
+    }
   }
 
   updateNew(k,n,s,i){
@@ -80,6 +89,11 @@ class App extends Component {
   addToggle() {
     this.setState({
       addModal: !this.state.addModal,
+      temp:{
+        name: "",
+        surname: "",
+        in: -1,
+      }
     });
   }
 
