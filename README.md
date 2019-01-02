@@ -1,1 +1,1 @@
-Github Pages Link : https://github.com/mckocas/tableDemo
+Github Pages Link : https://mckocas.github.io/tableDemo
